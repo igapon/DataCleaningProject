@@ -30,8 +30,13 @@ activitylabels <- read.table(file.path("./data", "UCI HAR Dataset", "activity_la
 dataFull$Activityid <- activitylabels[dataFull$Activityid]
 setnames(dataFull, "Activityid", "Activity")
 
-orig_names <- names(dataFull)
-tmp_names <- names(dataFull)
+colMeanStd <- grep("mean\\(\\)|std\\(\\)",names(dataFull),value=TRUE)
+colMeanStd <- union(c("Subject","Activity"), colMeanStd)
+dataSubset<- subset(dataFull,select=colMeanStd) 
+
+
+orig_names <- names(dataSubset)
+tmp_names <- names(dataSubset)
 
 tmp_names <- gsub("\\(", "", tmp_names)
 tmp_names <- gsub("\\)", "", tmp_names)
@@ -64,9 +69,10 @@ tmp_names <- gsub(",gravity", "-Gravity", tmp_names)
 tmp_names <- gsub(",", "-", tmp_names)
 tmp_names <- gsub("^angle", "Angle", tmp_names)
 
-names(dataFull) <- tmp_names
+names(dataSubset) <- tmp_names
 
-dataTidy <- aggregate(dataFull, by=list(Activity = dataFull$Activity, Subject=dataFull$Subject), FUN=mean)
+
+dataTidy <- aggregate(dataSubset, by=list(Activity = dataSubset$Activity, Subject=dataSubset$Subject), FUN=mean)
 colNameTable <- rbind(orig_names, tmp_names)
 
 write.table(dataTidy, "./data/tidy_data.txt")
