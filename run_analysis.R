@@ -18,7 +18,7 @@ dataX <- rbind(dataTrainX, dataTestX)
 library(data.table)
 
 setnames(dataSubject, "V1", "Subject")
-setnames(dataActivity, "V1", "Activityid")
+setnames(dataActivity, "V1", "Activity")
 
 features <- read.table(file.path("./data", "UCI HAR Dataset", "features.txt"))
 setnames(dataX, as.character(features[,2]))
@@ -27,8 +27,7 @@ dataFull <- cbind(dataSubject, dataActivity, dataX)
 
 activitylabels <- read.table(file.path("./data", "UCI HAR Dataset", "activity_labels.txt"))[,2]
 
-dataFull$Activityid <- activitylabels[dataFull$Activityid]
-setnames(dataFull, "Activityid", "Activity")
+dataFull$Activity <- activitylabels[dataFull$Activity]
 
 colMeanStd <- grep("mean\\(\\)|std\\(\\)",names(dataFull),value=TRUE)
 colMeanStd <- union(c("Subject","Activity"), colMeanStd)
@@ -72,8 +71,8 @@ tmp_names <- gsub("^angle", "Angle", tmp_names)
 names(dataSubset) <- tmp_names
 
 
-dataTidy <- aggregate(dataSubset, by=list(Activity = dataSubset$Activity, Subject=dataSubset$Subject), FUN=mean)
+dataTidy <- aggregate(dataSubset[,-(1:2)], by=list(Activity = dataSubset$Activity, Subject=dataSubset$Subject), FUN=mean)
 colNameTable <- rbind(orig_names, tmp_names)
 
-write.table(dataTidy, "./data/tidy_data.txt")
+write.table(dataTidy, "./data/tidy_data.txt", row.names=FALSE)
 write.table(colNameTable, "./data/colnames.txt")
