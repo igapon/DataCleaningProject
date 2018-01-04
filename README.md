@@ -9,6 +9,9 @@ This repository contains the final project of the Data Cleaning course. The R sc
 3) run_analysis.R - R script to download, extract and analyze the data as per the criteria above.
 4) tidy_data.txt - Final tidy dataset
 
+## Running the code
+Please execute the run_analysis.R script to download the original HAR dataset and generate the tidy_data.txt file. A data subfolder will be created in the current working directory to accomodate the data.
+
 ## Original instructions from Coursera course:
 
 The purpose of this project is to demonstrate your ability to collect, work with, and clean a data set. The goal is to prepare tidy data that can be used for later analysis. You will be graded by your peers on a series of yes/no questions related to the project. You will be required to submit: 1) a tidy data set as described below, 2) a link to a Github repository with your script for performing the analysis, and 3) a code book that describes the variables, the data, and any transformations or work that you performed to clean up the data called CodeBook.md. You should also include a README.md in the repo with your scripts. This repo explains how all of the scripts work and how they are connected.
